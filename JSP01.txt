@@ -1,0 +1,96 @@
+
+
+1. JDK 설치(LTS(안정화된 버전) : 17)
+    - Oracle	: 1.8 까지만 무료
+    - Open JDK	: https://adoptopenjdk.net/ (이걸 사용할 것임)
+
+2. Apache tomcat (10.0.20) https://tomcat.apache.org/download-10.cgi
+
+
+
+open jdk 설치
+시작 - 3번째 체크 안되있는 Set JAVA_HOME variable 체크(첫번째것) - 설치장소 C드라이브 jdk_17폴더 만들어서 설치
+
+톰캣 설치
+시작(apache-tomcat-10.0.20) - next - i agree - 전부다 체크(5가지) - 
+주의 :	Server Shutdown Port : 8005 
+	HTTP/1.1 Connector Port : 8181(오라클이 이미 8080이라서)
+	Tomcat Service Name : Tomcat10
+	
+	user name : admin
+	password : 1234
+- 기존 jre에 설치 - destination folder = C:\Tomcat 10.0 - 설치 
+- 실행에서 service.msc - 관리자권한으로 cmd 실행 - net stop Tomcat10 - net start Tomcat10
+톰캣이 실행된 상태에서 인터넷주소창 http://localhost:8181/ 입력후 화면뜨면 설치 잘됨.
+
+
+3. 이클립스에서 톰캣을 연동해야함.
+이클립스 실행후 help 메뉴에서 about eclipse 에서 버전 확인 (지금은Version: 2021-12 (4.22.0))
+help 메뉴에서 install new software 클릭 - work with --All Available Sites-- 선택
+- 맨밑 Web, XML, Java EE and OSGI enterprise development 체크후 next - agree - finish 하면 설치
+
+	JAVA EE 설치(JSP)
+
+
+4. JSP 구동
+
+     Client Side Script(스크립트 해석을 Client 웹브라우저에서 해석) : HTML, CSS, JS, JQuery
+	(Front End)
+
+     Server Side Script(스크립트 해석을 Server에서 해석하고 해석된 결과를 클라이언트에게 전송) : JSP, CGI, PHP, ASP, node.js ...
+	Client에서 원본 소스를 볼 수 없다. DataBase(Oracle, MSSQL, MySQL...)를 조작(Select, Insert, Update, Delete)
+	웹서버(톰캣)를 작동후 결과 확인이 가능하다.(소스를 브라우저에서 보면 결과를 확인할 수 없다.)
+	(Back End)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

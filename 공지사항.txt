@@ -1,0 +1,62 @@
+4월8일
+9일 토요일 시험
+chap 19 하고있음
+
+4월11일
+chap19 하고있음
+
+4월12일
+chap19 하고있음 FileOutputStream, ConsoleInputStream, ConsoleInputObject, ConsoleOutputObject
+
+4월13일
+chap19 하고있음 BufferedInput_BufferedOutputStream, DataInputStream, CombineFilterStream, PrintStream, File_Reader_Writer, Buffer_Reader_Writer, InputStreamReader, OutputStreamWriter
+
+4월14일
+chap19 하고있음
+
+4월18일
+DB 시작. DB만 50여가지 정도 된다. Oracle 중점으로.
+
+4월19일
+VM에서 WS2019 지우고 다시 깔아서 다시 세팅해야 한다.
+Git, 소스트리, Oracle SQL, MSSQL, MySQL, 한글팩, HOME 폴더 세팅, 방화벽, iis 등
+
+4월20일
+숫자 함수, 날짜 함수, 형 변환 함수 등
+
+4월21일
+그룹 함수, 집계 함수
+
+4월22일
+토요일 시험있음. Sub Query 하고있음
+
+4월25일
+CRUD 하고있음
+
+4월26일
+제약조건
+
+4월27일
+뷰
+
+4월28일
+시퀀스 인덱스
+
+4월29일
+토요일 시험있음. 
+계정 생성 권한부여 테이블생성
+ERwin 설치(32bit), 모델링
+
+5월2일
+PL/SQL
+
+5월3일
+Procedure
+
+5월4일
+Trigger
+MSSQL
+MYSQL
+
+5월6일
+JSP
