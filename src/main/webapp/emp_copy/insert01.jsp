@@ -16,7 +16,7 @@
 		<p> 월급		: <input type = "number" name = "salary">
 		<p> 보너스	: <input type = "number" name = "commission">
 		<p> 부서번호	: <input type = "number" name = "dno">
-		<p> <input type = "submit" values = "전송">	
+		<p> <input type = "submit" value = "전송">	
 	
 	</form>
 

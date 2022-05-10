@@ -7,7 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form method = "post" action = "insert02_process.jsp">
+	
+	<form method = "post" action = "update01_process.jsp">
 		<p> 사원번호	: <input type = "number" name = "eno">
 		<p> 사원명	: <input type = "text" name = "ename">
 		<p> 직책		: <input type = "text" name = "job">

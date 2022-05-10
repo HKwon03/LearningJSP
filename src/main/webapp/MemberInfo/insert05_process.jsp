@@ -21,17 +21,20 @@
 	String name = request.getParameter("name");
 	String email = request.getParameter("email");
 	
-	Statement stmt = null;		// Statement 객체 : SQL 쿼리 구문을 담아서 실행하는 객체.
+	PreparedStatement pstmt = null;		// PreparedStatement 객체 : SQL 쿼리 구문을 담아서 실행하는 객체.
 	String sql = null;		//전역 변수
 	
 	try {
-		sql = "INSERT INTO mbTbl(idx, id, pass, name, email) Values(seq_mbTbl_idx.nextval, '" + id + "', '" + passwd + "', '" + name + "' , '" + email + "')";
+		sql = "INSERT INTO mbTbl(idx, id, pass, name, email) Values(seq_mbTbl_idx.nextval, ?, ?, ?, ?)";
 		//강사님String sql = "INSERT INTO mbTbl ( idx, id, pass, name, email ) Values (seq_mbTbl_idx.nextval, '" + id + "','"+  passwd + "','" + name+"','" + email + "') ";
-		
-		stmt = conn.createStatement();	//connection 객체를 통해서 statement 객체 생성
-		stmt.executeUpdate(sql);		//statement 객체를 통해서 sql을 실행함.
-					//stmt.executeUpdate (sql) : sql <== insert, update, delete 문이 온다.
-					//stmt.executeQuery (sql)  : sql <== select 문이 오면서 결과를 Resultset 객체로 반환
+		pstmt = conn.prepareStatement(sql);	//PreparedStatement 객체 생성시에 sql 문을 넣는다.
+		pstmt.setString(1,id);
+		pstmt.setString(2,passwd);
+		pstmt.setString(3,name);
+		pstmt.setString(4,email);
+		pstmt.executeUpdate();		
+					//stmt.executeUpdate () : sql <== insert, update, delete 문이 온다.
+					//stmt.executeQuery ()  : sql <== select 문이 오면서 결과를 Resultset 객체로 반환
 		
 		out.println("테이블 삽입에 성공했습니다.");
 		out.println("<p> <p>");
@@ -48,8 +51,8 @@
 		
 		
 	} finally {
-		if (stmt != null) {
-			stmt.close();
+		if (pstmt != null) {
+			pstmt.close();
 		}
 		if (conn != null)
 			conn.close();		
