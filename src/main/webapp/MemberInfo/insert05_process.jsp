@@ -26,7 +26,6 @@
 	
 	try {
 		sql = "INSERT INTO mbTbl(idx, id, pass, name, email) Values(seq_mbTbl_idx.nextval, ?, ?, ?, ?)";
-		//강사님String sql = "INSERT INTO mbTbl ( idx, id, pass, name, email ) Values (seq_mbTbl_idx.nextval, '" + id + "','"+  passwd + "','" + name+"','" + email + "') ";
 		pstmt = conn.prepareStatement(sql);	//PreparedStatement 객체 생성시에 sql 문을 넣는다.
 		pstmt.setString(1,id);
 		pstmt.setString(2,passwd);

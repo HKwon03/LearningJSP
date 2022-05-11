@@ -66,3 +66,6 @@ JSP
 
 5월10일
 JSP insert, update, delete, select
+
+5월11일
+JSP freeboard
