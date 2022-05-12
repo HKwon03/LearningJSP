@@ -52,46 +52,66 @@
   </tr>
  <% 	// vector : 멀티스레드 환경에서 사용, 모든 메소드가 동기화 처리되어 있음.
  
-  Vector name=new Vector();
-  Vector inputdate=new Vector();
+  Vector name=new Vector();			//DB의 Name 값만 저장하는 벡터
+  Vector inputdate=new Vector();	//
   Vector email=new Vector();
   Vector subject=new Vector();
-  Vector rcount=new Vector();
+  Vector rcount=new Vector();	
   
-  Vector step=new Vector();
-  Vector keyid=new Vector();
+  Vector step=new Vector();			//DB의 step 컬럼만 저장하는 벡터
+  Vector keyid=new Vector();		//DB의 ID컬럼의 값을 저장하는 벡터
   
   // 페이징 처리 시작 부분
   
   int where=1;
 
-  int totalgroup=0;
-  int maxpages=5;			//최대 페이지 갯수
-  int startpage=1;
-  int endpage=startpage+maxpages-1;
-  int wheregroup=1;
-
-  if (request.getParameter("go") != null) {
-   where = Integer.parseInt(request.getParameter("go"));
-   wheregroup = (where-1)/maxpages + 1;
+  int totalgroup=0;			// 출력할 페이징의 그룹핑의 최대 갯수
+  int maxpages=5;			// 최대 페이지 갯수(화면에 출력될 페이지 갯수)
+  int startpage=1;			// 처음 페이지
+  int endpage=startpage+maxpages-1;	// 마지막 페이지
+  int wheregroup=1;			// 현재 위치하는 그룹
+  
+  
+	// go : 해당 페이지 번호로 이동.
+	// freeboard_list.jsp?go=3
+	// gogroup : 출력할 페이지의 그룹핑
+	// freeboard_list.jsp?gogroup=2	(전체글수34, maxpage가 5일때 6, 7, 8, 9, 10)
+	
+	// go 변수 (페이지 번호) 를 넘겨 받아서 wheregroup, startpage,endpage 정보의 값을 알아낸다.
+	
+  if (request.getParameter("go") != null) {		// go 변수의 값을 가지고 있을 때
+   where = Integer.parseInt(request.getParameter("go"));	// 현재 페이지 번호를 담은 변수
+   wheregroup = (where-1)/maxpages + 1;		// 현재 위치한 페이지의 그룹
    startpage=(wheregroup-1) * maxpages+1;  
    endpage=startpage+maxpages-1; 
-  } else if (request.getParameter("gogroup") != null) {
+   
+  // gogroup 변수를 넘겨받아서 startpage, endpage, where(페이지 그룹의 첫번째 페이지)
+  } else if (request.getParameter("gogroup") != null) {	// gogroup 변수의 값을 가지고 올 때
    wheregroup = Integer.parseInt(request.getParameter("gogroup"));
    startpage=(wheregroup-1) * maxpages+1;  
    where = startpage ; 
    endpage=startpage+maxpages-1; 
   }
-  int nextgroup=wheregroup+1;
-  int priorgroup= wheregroup-1;
+  
+  
+  
+  int nextgroup=wheregroup+1;		//다음 그룹 : 현재 그룹 + 1
+  int priorgroup= wheregroup-1;		//이전 그룹 : 현재 그룹 - 1
 
-  int nextpage=where+1;
-  int priorpage = where-1;
-  int startrow=0;
-  int endrow=0;
-  int maxrows=10;			// 출력할 레코드 수
-  int totalrows=0;
-  int totalpages=0;
+  int nextpage=where+1;			//다음 페이지 : 현재 페이지 + 1			
+  int priorpage = where-1;		//이전 페이지 : 현재 페이지 - 1
+  int startrow=0;			//하나의 page에서 레코드 시작 번호
+  int endrow=0;				//하나의 page에서 레코드 마지막 번호
+  int maxrows=5;				// 출력할 레코드 수
+  int totalrows=0;			//총 레코드 갯수
+  int totalpages=0;			//총 페이지 갯수
+  
+  //out.println("=====maxpage : 3 일때=====" + "<p>");
+  //out.println("현재 페이지 : " + where + "<p>");
+  //out.println("현재 페이지 그룹 : " + wheregroup + "<p>");
+  //out.println("시작 페이지 : " + startpage + "<p>");
+  //out.println("끝 페이지 : " + endpage + "<p>");
+  // if(true) return;
   
   
   // 페이징 처리 마지막 부분
@@ -119,7 +139,10 @@
    out.println("게시판에 올린 글이 없습니다");
   } else {
    do {
-    keyid.addElement(new Integer(rs.getInt("id")));
+	   //DataBase의 값을 가져와서 각각의 vector에 저장
+	   
+    keyid.addElement(new Integer(rs.getInt("id")));	
+    			// rs의 id컬럼의 값을 가져와서 vector에 저장
     name.addElement(rs.getString("name"));
     email.addElement(rs.getString("email"));
     String idate = rs.getString("inputdate");
@@ -128,27 +151,46 @@
     subject.addElement(rs.getString("subject"));
     rcount.addElement(new Integer(rs.getInt("readcount")));
     step.addElement(new Integer(rs.getInt("step")));
+    
    }while(rs.next());
-   totalrows = name.size();
+   
+   
+   totalrows = name.size();			// name vector에 저장된 값의 갯수, 총 레코드 수
    totalpages = (totalrows-1)/maxrows +1;
-   startrow = (where-1) * maxrows;
-   endrow = startrow+maxrows-1  ;
+   startrow = (where-1) * maxrows;			//현재 페이지에서 시작 레코드 번호
+   endrow = startrow+maxrows-1  ;			//현재 페이지에서 마지막 레코드 번호
+   
+   //out.println("=======maxrow : 3일 때=======<p>");
+   //out.println("총 레코드수 : " + totalrows + "<p>");
+   //out.println("현재 페이지 : " + where + "<p>");
+   //out.println("시작 레코드 : " + startrow + "<p>");
+   //out.println("마지막 레코드 : " + endrow + "<p>");
+   
+   
    if (endrow >= totalrows)
     endrow=totalrows-1;
   
-   totalgroup = (totalpages-1)/maxpages +1;
+   totalgroup = (totalpages-1)/maxpages +1;		//페이지의 그룹핑
+   
+   //out.println("토탈 페이지 그룹 : " + totalgroup + "<p>");
+   
    if (endpage > totalpages) 
     endpage=totalpages;
-
+   
+   
+   
+	// 현재 페이지에서 시작레코드, 마지막 레코드까지 순환하면서 출력
    for(int j=startrow;j<=endrow;j++) {
-    String temp=(String)email.elementAt(j);
-    if ((temp == null) || (temp.equals("")) ) 
-     em= (String)name.elementAt(j); 
-    else
+    String temp=(String)email.elementAt(j);		//email vector에서 email 주소를 가져온다.
+    if ((temp == null) || (temp.equals("")) ) 	//메일 주소가 비어있을 때
+     em= (String)name.elementAt(j); 			//em 변수에 이름만 가져와서 담는다.
+    else	//메일 주소를 가지고 있을 때
      em = "<A href=mailto:" + temp + ">" + name.elementAt(j) + "</A>";
 
     id= totalrows-j;
-    if(j%2 == 0){
+    
+    
+    if(j%2 == 0){	// j가 짝수일 때
      out.println("<TR bgcolor='#FFFFFF' onMouseOver=\" bgColor= '#DFEDFF'\" onMouseOut=\"bgColor=''\">");	
     } else {
      out.println("<TR bgcolor='#F4F4F4' onMouseOver=\" bgColor= '#DFEDFF'\" onMouseOut=\"bgColor='#F4F4F4'\">");
@@ -181,7 +223,22 @@
     out.println("<TD align=center>");
     out.println(rcount.elementAt(j)+ "</TD>");
     out.println("</TR>"); 
+    
+    //out.println("J : " + j + "<p>");
+    //out.println("ID : " + keyid.elementAt(j) + "<p>");
+    //out.println("subject : " + subject.elementAt(j) + "<p>");
+    //out.println("em : " + em + "<p>");
+    //if(true) return;
+    
    }
+	//if(true) return;
+	// for 블럭의 마지막
+	
+	
+	
+	
+	
+	
    rs.close();
   }
   out.println("</TABLE>");
@@ -191,13 +248,16 @@
   out.println(e);
  } 
 
- if (wheregroup > 1) {
+ if (wheregroup > 1) {	// 현재 나의 그룹이 1 이상일 때는 
   out.println("[<A href=freeboard_list.jsp?gogroup=1>처음</A>]"); 
   out.println("[<A href=freeboard_list.jsp?gogroup="+priorgroup +">이전</A>]");
- } else {
+  
+ } else {	// 현재 나의 그룹이 1이상이 아닐때	
+	 
   out.println("[처음]") ;
   out.println("[이전]") ;
  }
+ 
  if (name.size() !=0) { 
   for(int jj=startpage; jj<=endpage; jj++) {
    if (jj==where) 

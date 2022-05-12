@@ -68,4 +68,8 @@ JSP
 JSP insert, update, delete, select
 
 5월11일
-JSP freeboard
+JSP freeboard reply
+
+5월11일
+JSP freeboard paging
+개인 포트폴리오 회원가입 게시판 장바구니 쇼핑몰 정도 구현
