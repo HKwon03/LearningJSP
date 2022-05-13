@@ -21,46 +21,63 @@
    <TD align=right width=70% valign=bottom>
     <FONT size=2 face=굴림>
      <SELECT name=stype >
+     
 <% 
- String cond = null;
- int what = 1;
- String val=null;  
+ String cond = null;	// 검색할 조건을 저장하는 변수
+int what = 1;	// what : stype 에서 넘긴 변수를 담고있다.
+				// 1 >이름, 2 >제목, 3 >내용, 4 >이름+제목, 
+				// 5 >이름+내용, 6 >제목+내용, 7 >이름+제목+내용
+
+ String val=null; 	//검색 단어를 저장하는 변수
+ 
  if (request.getParameter("stype") != null) {
   what = Integer.parseInt(request.getParameter("stype"));
   val= request.getParameter("sval");
-  if (what==1) {
+  
+  
+  if (what==1) {		// " 1 >이름 "
    out.println("<OPTION value=1 selected>이름");
    cond = " where name like '%"+ val+ "%'";
+   
   } else  
    out.println("<OPTION value=1 >이름");
-  if (what==2) {
+  
+  if (what==2) {		// 2 >제목
    out.println("<OPTION value=2 selected>제목");
    cond = " where subject like '%"+ val+ "%'";
   } else  
    out.println("<OPTION value=2>제목");
-  if (what==3) { 
+  
+  
+  if (what==3) { 		// 3 >내용
    out.println("<OPTION value=3 selected>내용");
    cond = " where content  like '%"+ val+ "%'";
+   
   } else  
    out.println("<OPTION value=3>내용");
-  if (what==4) {
+  
+  if (what==4) {		// >이름+제목
    out.println("<OPTION value=4 selected>이름/제목");
    cond = " where name  like '%"+ val + "%'";
    cond = cond + " or  subject  like '%"+ val+ "%'";
   } else  
    out.println("<OPTION value=4>이름/제목");
+  
   if (what==5) {
    out.println("<OPTION value=5 selected>이름/내용");
    cond = " where name  like '%"+ val + "%'";
    cond = cond + " or  content  like '%"+ val+ "%'";
   } else  
    out.println("<OPTION value=5>이름/내용");
+  
   if (what==6) {
    out.println("<OPTION value=6 selected>제목/내용");
    cond = " where subject  like '%"+ val + "%'";
    cond = cond + " or  content  like '%"+ val+ "%'";
   } else  
    out.println("<OPTION value=6>제목/내용");
+  
+  
   if (what==7) {
    out.println("<OPTION value=7 selected>이름/제목/내용");
    cond = " where name  like '%"+ val + "%'";
@@ -105,24 +122,27 @@
  Vector keyid=new Vector();
  Vector step=new Vector();
  
- int where=1;
+ int where=1;		// 현재 위치한 페이지
 
  int totalgroup=0;
- int maxpages=2;
+ int maxpages=2;	//페이징 처리부분의 2개의 페이지만 최대로 출력
  int startpage=1;
  int endpage=startpage+maxpages-1;
- int wheregroup=1;
+ int wheregroup=1;	// 페이지 그룹
  
  if (request.getParameter("go") != null) {
   where = Integer.parseInt(request.getParameter("go"));
   wheregroup = (where-1)/maxpages + 1;
   startpage=(wheregroup-1) * maxpages+1;  
-  endpage=startpage+maxpages-1; 
+  endpage=startpage+maxpages-1;
+  
+  
  } else if (request.getParameter("gogroup") != null) {
   wheregroup = Integer.parseInt(request.getParameter("gogroup"));
   startpage=(wheregroup-1) * maxpages+1;  
   where = startpage ; 
   endpage=startpage+maxpages-1; 
+  
  }
  int nextgroup=wheregroup+1;
  int priorgroup= wheregroup-1;
@@ -147,7 +167,13 @@
   st = conn.createStatement();
   String sql = "select * from freeboard " + cond;
   sql = sql + " order by id desc" ;
+  
+  // out.println(sql);
+  // if (true) return;
+  
   rs = st.executeQuery(sql);
+  
+  
   if (!(rs.next()))  {
    out.println("해당하는 글이 없습니다");
   } else {

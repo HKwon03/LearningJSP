@@ -5,11 +5,11 @@
 <HEAD>
 <SCRIPT language="javascript">
 function check() {
- with(document.msgwrite){
+ with(document.msgwrite){			//document : 문서전체, msgwrite : form
   if(subject.value.length == 0){
    alert("제목을 입력해 주세요!!");
    subject.focus();
-   return false;
+   return false; //return true 면 바로 document.msgwrite.submit(); 으로 간다.
   }
   if(name.value.length == 0){
    alert("이름을 입력해 주세요!!");

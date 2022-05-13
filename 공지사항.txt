@@ -70,6 +70,9 @@ JSP insert, update, delete, select
 5월11일
 JSP freeboard reply
 
-5월11일
+5월12일
 JSP freeboard paging
 개인 포트폴리오 회원가입 게시판 장바구니 쇼핑몰 정도 구현
+
+5월13일
+통합구현(SQL/JSP), 토요일 12시 ~ 일요일 10시

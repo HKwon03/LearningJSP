@@ -198,17 +198,21 @@
     out.println("<TD align=center>");
     out.println(id+"</TD>");
     out.println("<TD>");
+    	//step : 글의 깊이, 0:처음글, 1:답변글, 2:답변의 답변글
+    
     int stepi= ((Integer)step.elementAt(j)).intValue();
     int imgcount = j-startrow; 
-    if (stepi > 0 ) {
+    
+    if (stepi > 0 ) {	//답변글인 경우( > 0)
      for(int count=0; count < stepi; count++)
-      out.print("&nbsp;&nbsp;");
+      out.print("&nbsp;&nbsp;");	//답변글일 경우 공백 2칸 처리
      out.println("<IMG name=icon"+imgcount+ " src=image/arrow.gif>");
      out.print("<A href=freeboard_read.jsp?id=");
      out.print(keyid.elementAt(j) + "&page=" + where );
      out.print(" onmouseover=\"rimgchg(" + imgcount + ",1)\"");
      out.print(" onmouseout=\"rimgchg(" + imgcount + ",2)\">");
-    } else {
+     
+    } else {	//처음글인 경우( = 0)
      out.println("<IMG name=icon"+imgcount+ " src=image/close.gif>");
      out.print("<A href=freeboard_read.jsp?id=");
      out.print(keyid.elementAt(j) + "&page=" + where );

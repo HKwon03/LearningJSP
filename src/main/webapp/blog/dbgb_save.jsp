@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ page import = "java.sql.*, java.util.*, java.text.*" %>
-<% request.setCharacterEncoding("EUC-KR"); %>	<!-- 한글 처리 -->
+<% request.setCharacterEncoding("UTF-8"); %>	<!-- 한글 처리 -->
 
 <%@ include file = "dbconn_oracle.jsp" %>
 
@@ -19,10 +19,7 @@
 	String em = request.getParameter("email");
 	String sub = request.getParameter("subject");
 	String cont = request.getParameter("content");
-	String pw = request.getParameter("password");
 
-	int id = 1;			// DB에 id 컬럼에 저장할 값
-	
 	int pos = 0;		
 	if(cont.length() == 1) 
 		cont = cont + " ";
@@ -38,7 +35,7 @@
 		String right = cont.substring(pos, cont.length());
 			// out.println("right : " + right + "<p>");
 		
-		cont = left + "\'" + right;
+		//cont = left + "\'" + right;
 		pos += 2;
 	}
 	 
@@ -52,7 +49,7 @@
 	String ymd = myformat.format(yymmdd);
 	
 	String sql = null;
-	Statement st = null;
+	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	int cnt = 0;		// Insert가 잘 되었는지 그렇지 않은지 확인하는 변수
 	
@@ -62,23 +59,19 @@
 		//conn(Connection) : Auto commit; 이 작동된다.
 			//commit을 명시하지 않아도 insert, update, delete 자동 커밋이 된다.
 		
-		st = conn.createStatement();
-		sql = "select max(id) from freeboard";
-		rs = st.executeQuery(sql);
 		
-		if (!rs.next()) {	//rs의 값이 비어있을때
-			id = 1;
-		} else {			//rs의 값이 존재할 때
-			id = rs.getInt(1) + 1;	//최대값 +1
-		}
 		
-		sql = "INSERT INTO freeboard(id, name, password, email, subject, ";
-		sql = sql + "content, inputdate, masterid, readcount, replaynum, step)";
-		sql = sql + " values(" + id + ", '" + na + "', '" + pw + "', '" + em ;
-		sql = sql + "','" + sub + "','" + cont + "','" + ymd + "'," + id + ",";
-		sql = sql + "0,0,0)";
+		sql = "INSERT INTO guestboard(name, email, inputdate, subject, content) values(?, ?, ?, ?, ?)";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, na);
+		pstmt.setString(2, em);
+		pstmt.setString(3, ymd);
+		pstmt.setString(4, sub);
+		pstmt.setString(5, cont);
 		
-		cnt = st.executeUpdate(sql); 	//cnt > 0 : Insert 성공
+		
+		
+		cnt = pstmt.executeUpdate(); 	//cnt > 0 : Insert 성공
 		
 		// out.println(sql);
 		// if(true) return;	//
@@ -95,24 +88,15 @@
 	} finally {
 		if(rs != null)
 			rs.close();
-		if(st != null)
-			st.close();
+		if(pstmt != null)
+			pstmt.close();
 		if(conn != null)
 			conn.close();
 	}
 
 %>
 
-
-<jsp:forward page = "freeboard_list.jsp" />  
-
-<!--  페이지 이동
-
-	jsp:forward : 			서버단에서 페이지를 이동, 클라이언트의 기존의 URL 정보가 바뀌지 않는다.
-	response.sendRedirect : 
-		클라이언트에서 페이지를 재요청으로 페이지 이동, 이동하는 페이지로 URL 정보가 바뀐다.
- -->
-
+<jsp:forward page = "dbgb_show.jsp" />  
 
 </body>
 </html>
