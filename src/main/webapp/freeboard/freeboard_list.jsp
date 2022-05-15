@@ -308,6 +308,7 @@
   <TD align=right valign=bottom width="117"><A href="freeboard_write.htm"><img src="image/write.gif" border="0"></TD>
  </TR>
 </TABLE>
+</center>
 </FORM>
 </BODY>
 </HTML>

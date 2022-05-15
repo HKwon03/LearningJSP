@@ -7,3 +7,13 @@ create table guestboard(
     subject varchar2(20),
     content varchar2(2000)
 );
+
+select * from guestboard;
+
+desc guestboard;
+
+select * from guestboard order by inputdate desc;
+
+commit;
+
+delete guestboard;

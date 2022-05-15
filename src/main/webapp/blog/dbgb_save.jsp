@@ -45,7 +45,7 @@
 	// 오늘의 날짜 처리
 	
 	java.util.Date yymmdd = new java.util.Date();
-	SimpleDateFormat myformat = new SimpleDateFormat("yy-MM-d h:mm a");
+	SimpleDateFormat myformat = new SimpleDateFormat("yy-MM-d h:mm:ss a");
 	String ymd = myformat.format(yymmdd);
 	
 	String sql = null;
